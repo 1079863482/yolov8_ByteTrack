@@ -16,3 +16,32 @@
 代码没有做太多优化，改起来很方便。
 
 
+## Tensort实现 yolov8_ByteTrack
+
+1. 运行export-det.py 文件，得到outputs修改后的onnx文件
+
+
+```python
+python export-det.py --weights yolov8n.pt --iou-thres 0.65 --conf-thres 0.25 --topk 100 --opset 11 --sim --input-shape 1 3 640 640 --device cuda:0
+```
+
+2. 使用trtexec 将onnx转trt
+
+```python
+./trtexec --onnx=yolov8n.onnx --saveEngine=yolov8n.engine --fp16
+```
+
+拷贝yolov8n.engine到tensorrt 实现的C++工程中
+
+[yolov8_ByteTrack_TensorRT](https://github.com/1079863482/yolov8_ByteTrack_TensorRT)
+
+
+## 参考
+
+[YOLOv8-TensorRT](https://github.com/triple-Mu/YOLOv8-TensorRT)
+
+
+[ByteTrack](https://github.com/ifzhang/ByteTrack)
+
+
+
